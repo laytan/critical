@@ -138,13 +138,13 @@ class Critical_Public {
 		}
 
 		// Change rel="stylesheet" to rel="preload"
-		$new_html = Critical::replace_first( 'stylesheet', $html, 'preload' );
+		$new_html = Critical_Helpers::replace_first( 'stylesheet', $html, 'preload' );
 		if ( false === $new_html ) {
 			return $html;
 		}
 
 		// Add the rest of the attributes for preloading
-		$with_onload = Critical::replace_first( ' ', $new_html, ' as="style" onload="this.onload=null;this.rel=\'stylesheet\'" ' );
+		$with_onload = Critical_Helpers::replace_first( ' ', $new_html, ' as="style" onload="this.onload=null;this.rel=\'stylesheet\'" ' );
 
 		// Add no javascript support
 		// TODO: This outputs the style in quotes

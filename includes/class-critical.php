@@ -122,6 +122,11 @@ class Critical {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-critical-public.php';
 
+		/**
+		 * The class that houses all our static helper functions
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-critical-helpers.php';
+
 		$this->loader = new Critical_Loader();
 
 	}
