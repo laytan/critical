@@ -4,6 +4,9 @@
 	/**
 	 * All of the code for your public-facing JavaScript source
 	 * should reside in this file.
+	 * 
+	 * Note: This CSS is only loaded when a user with current user can edit pages is on the public-facing pages,
+     *       The plugin does not have any public-facing CSS for non privileged users
 	 */
 
 	/**
