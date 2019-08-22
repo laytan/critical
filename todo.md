@@ -9,3 +9,4 @@
 - [ ] Make more professional loading animation
 - [ ] Dynamic URL redirect
 - [ ] Add noscript support
+- [ ] Internationalize
