@@ -100,7 +100,8 @@ class Critical_Public {
 
 		// * This plugin only needs the javascript once an admin is on the front-end
 		if ( current_user_can( 'edit_pages' ) ) {
-			wp_enqueue_script( $this->critical, plugin_dir_url( __FILE__ ) . 'js/critical-public.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( $this->critical, plugin_dir_url( __FILE__ ) . 'js/critical-public.js', array( 'jquery', $this->critical . '-class' ), $this->version, false );
+			wp_enqueue_script( $this->critical . '-class', plugin_dir_url( __FILE__ ) . 'js/class-critical-public.js', array(), $this->version, false );
 		}
 	}
 
