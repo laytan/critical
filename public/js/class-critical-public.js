@@ -21,7 +21,6 @@ class Critical_Public {
 	 * @returns {object} JQuery element
 	 */
 	getToolbarBtn() {
-		console.log(this.$);
 		return this.$('#wp-admin-bar-critical-admin-toolbar');
 	}
 
@@ -33,30 +32,77 @@ class Critical_Public {
 	 */
 	redirect(outputCSS) {
 		const toolbarBtn = this.getToolbarBtn();
+
+		const info = this.getHiddenInformation(toolbarBtn);
+		const form = this.createForm(info.redirectTo, [
+			{
+				type: "input",
+				name: "critical-css",
+				value: outputCSS,
+			},
+			{
+				type: "input",
+				name: "critical-post-id",
+				value: info.postID,
+			},
+			{
+				type: "input",
+				name: "action",
+				value: "critical-got-css",
+			},
+			{
+				type: "input",
+				name: "_wpnonce",
+				value: info.nonce,
+			},
+		]);
+
+		form.css('display', 'none')
+			.appendTo(this.$('body'))
+			.submit();
+		form.remove();
+	}
+
+	/**
+	 * Creates a form according to the specified options
+	 * 
+	 * @since 1.0.0
+	 * @param {string} action where should the form direct
+	 * @param {[{type: string, name: string, value: string}]} fields array of fields to add to the form
+	 * @param {string} method method of transfer like POST or GET
+	 * @returns {object} JQuery object of the form
+	 */
+	createForm(action, fields, method = "POST") {
+		const form = this.$('<form></form>')
+			.attr('action', action)
+			.attr('method', method);
+
+		const fieldElements = fields.map(field => {
+			return this.$('<' + field.type + '></' + field.type + '>')
+				.attr('name', field.name)
+				.val(field.value);
+		});
+
+		return form.append(fieldElements);
+	}
+
+	/**
+	 * Retrieves hidden information from fields inside the toolbar
+	 * 
+	 * @since 1.0.0
+	 * @param {object} toolbarBtn JQuery object to find hidden info in
+	 * @returns {{ redirectTo: string, postID: number, nonce: string }} object with hidden information
+	 */
+	getHiddenInformation(toolbarBtn) {
 		const redirectTo = toolbarBtn.find('#critical-admin-toolbar-redirect-to').text();
 		const postID = toolbarBtn.find('#critical-admin-toolbar-post-id').text();
 		const nonce = toolbarBtn.find('#critical-admin-toolbar-nonce').text();
 
-		this.$('<form></form>')
-			.attr('action', redirectTo)
-			.attr('method', 'POST')
-			.append([
-				this.$('<input>')
-					.attr('name', 'critical-css')
-					.val(outputCSS),
-				this.$('<input>')
-					.attr('name', 'critical-post-id')
-					.val(postID),
-				this.$('<input>')
-					.attr('name', 'action')
-					.val('critical_got_css'),
-				this.$('<input>')
-					.attr('name', '_wpnonce')
-					.val(nonce),
-			])
-			.css('display', 'none')
-			.appendTo(this.$('body'))
-			.submit();
+		return {
+			redirectTo,
+			postID,
+			nonce,
+		}
 	}
 
 	/**
@@ -69,10 +115,16 @@ class Critical_Public {
 		const toolbar = this.getToolbarBtn();
 		toolbar.find('#critical-admin-toolbar-title').text('').addClass('critical-loader');
 
-		const cssFiles = this.getAllCSS();
+		const cssFiles = this.getAllStylesheets();
+		const withoutAdmin = cssFiles.filter(this.isNotAdminStylesheet);
+
+		const criticalStrings = [];
+		withoutAdmin.forEach(stylesheet => {
+			criticalStrings.push(this.criticalCSS(stylesheet.href));
+		});
 
 		// Combine all css into one
-		const combinedCSS = cssFiles.join('\n');
+		const combinedCSS = criticalStrings.join('\n');
 
 		// Minify the css
 		this.minify(combinedCSS, (minifiedCSS) => {
@@ -82,24 +134,24 @@ class Critical_Public {
 	}
 
 	/**
-	 * Gets all links with rel="stylesheet" and returns their contents in an array
+	 * Returns true when it is not an admin stylesheet
 	 * 
 	 * @since 1.0.0
-	 * @returns {string[]} array of links
+	 * @param {{ href: string }} stylesheet stylesheet to check for admin
 	 */
-	getAllCSS() {
-		// TODO: Only generate css from non-admin styles
-		const stylesheets = this.$('link[rel="stylesheet"]');
-		let cssStrings = [];
-		stylesheets.each((i, stylesheet) => {
-			const link = stylesheet.href;
-			if (!link.includes("admin")) {
-				cssStrings.push(this.criticalCSS(link));
-			} else {
-				console.log("Admin css:", link);
-			}
-		});
-		return cssStrings;
+	isNotAdminStylesheet(stylesheet) {
+		// TODO: Other ways to check this? This does not catch all cases
+		return !(stylesheet.href.includes("admin"));
+	}
+
+	/**
+	 * Returns all stylesheets on the page in an array
+	 * 
+	 * @since 1.0.0
+	 * @returns {[object]} array of stylesheet objects
+	 */
+	getAllStylesheets() {
+		return this.$('link[rel="stylesheet"]').toArray();
 	}
 
 	/**
