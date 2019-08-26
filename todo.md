@@ -10,3 +10,4 @@
 - [ ] Dynamic URL redirect
 - [ ] Add noscript support
 - [ ] Internationalize
+- [ ] Use some kind of transpiler / Uglifier for the front-end

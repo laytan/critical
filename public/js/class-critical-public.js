@@ -263,7 +263,7 @@ class Critical_Public {
 
 	showOptions(css) {
 		const closeModal = (e) => {
-			this.$(e.target).parents('.critical-modal').toggleClass('critical-show-modal');
+			this.$(e.target).parents('.critical-modal').remove();
 		}
 
 		const modal =

@@ -1,0 +1,28 @@
+{
+  "name": "critical",
+  "version": "1.0.0",
+  "description": "A plugin for Wordpress that lets you easily generate, add and manage Critical CSS. It also has the option to preload CSS files so they are non render blocking.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^24.9.0",
+    "puppeteer": "^1.19.0",
+    "dotenv": "^8.1.0"
+  },
+  "scripts": {
+    "test": "start .\\tests\\js\\index.html & jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laytan/critical.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/laytan/critical/issues"
+  },
+  "homepage": "https://github.com/laytan/critical#readme"
+}
