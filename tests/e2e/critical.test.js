@@ -46,8 +46,10 @@ test("having ran addTestMark in a test, the minified css output starts with Test
     await wpLogin(page);
     await page.goto(rootUrl);
     await addTestMark(page);
-    await page.click('#wp-admin-bar-critical-admin-toolbar');
-    await page.waitForSelector('.critical-css-details p');
+    await Promise.all([
+        page.click('#wp-admin-bar-critical-admin-toolbar'),
+        page.waitForSelector('.critical-css-details p')
+    ]);
     const cssContent = await page.evaluate(() => {
         return document.querySelector('.critical-css-details p').textContent;
     });
@@ -72,9 +74,11 @@ test("clicking generate critical css shows a modal with the generated css", asyn
     await wpLogin(page);
     await page.goto(rootUrl);
     await addTestMark(page);
-    await page.click('#wp-admin-bar-critical-admin-toolbar');
-    const cssContent = await page.waitForSelector('.critical-css-details p');
-    expect(cssContent).not.toBeNull();
+    const res = await Promise.all([
+        page.click('#wp-admin-bar-critical-admin-toolbar'),
+        page.waitForSelector('.critical-css-details p'),
+    ]);
+    expect(res[1]).not.toBeNull();
     await page.close();
 });
 
@@ -84,9 +88,11 @@ test("clicking close or cancel closes the modal", async () => {
     await wpLogin(page);
     await page.goto(rootUrl);
     await addTestMark(page);
-    await page.click('#wp-admin-bar-critical-admin-toolbar');
-    const closeBtn = await page.waitForSelector('.critical-close-button');
-    await closeBtn.click();
+    const res = await Promise.all([
+        page.click('#wp-admin-bar-critical-admin-toolbar'),
+        page.waitForSelector('.critical-close-button'),
+    ]);
+    await res[1].click();
     expect(await page.$('.critical-modal')).toBeNull();
     await page.close();
 });
