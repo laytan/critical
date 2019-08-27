@@ -54,7 +54,7 @@ class Critical_Admin {
 
 		// TODO: Put somewhere else
 		// phpcs:disable
-		if ( $_POST['critical-input'] ) {
+		if ( array_key_exists( 'critical-input', $_POST ) ) {
 		// phpcs:enable
 			$url  = 'https://cssminifier.com/raw';
 			$args = array(
@@ -117,13 +117,22 @@ class Critical_Admin {
 	}
 
 	/**
-	 * Add the markup for our toolbar, onclick will be done in the js
-	 *
+	 * Hooked on admin_bar_menu to add our toolbar to the page
+	 * 
+	 * @param WP_Admin_Bar $wp_admin_bar the admin bar to run add_node on
 	 * @since 1.0.0
-	 * @param WP_Admin_Bar The admin bar global variable
 	 */
-	public function add_toolbar( $wp_admin_bar ) {
-		$post_ID = get_the_ID();
+	public function add_toolbar_with_post_id( $wp_admin_bar ) {
+		$this->add_toolbar( $wp_admin_bar, get_the_ID() );
+	}
+
+	/**
+	 * Add the markup for our toolbar
+	 *
+	 * @param WP_Admin_Bar $wp_admin_bar the admin bar to run add_node on
+	 * @since 1.0.0
+	 */
+	public function add_toolbar( $wp_admin_bar, $post_ID ) {
 		$args = array(
 			'id'    => 'critical-admin-toolbar',
 			'title' => '<span id="critical-admin-toolbar-title">Generate Critical CSS</span> 
@@ -144,6 +153,8 @@ class Critical_Admin {
 
 	/**
 	 * handles the post request from the front-end on getting css
+	 * 
+	 * @since 1.0.0
 	 */
 	public function got_css() {
 		// Verify request
