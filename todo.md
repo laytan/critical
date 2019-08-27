@@ -12,3 +12,4 @@
 - [ ] Internationalize
 - [ ] Use some kind of transpiler / Uglifier for the front-end
 - [*] Should not be using minify api on tests
+- [ ] Move source files into separate folder (admin/, public/, includes/)
