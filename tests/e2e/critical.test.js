@@ -53,7 +53,7 @@ test("clicking generate critical css shows a modal with the generated css", asyn
 });
 
 test("clicking close or cancel closes the modal", async () => {
-    const browser = await b.getHead();
+    const browser = await b.getHeadless();
     const page = await browser.newPage();
     await wpLogin(page);
     await page.goto(rootUrl);
