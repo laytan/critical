@@ -11,3 +11,4 @@
 - [ ] Add noscript support
 - [ ] Internationalize
 - [ ] Use some kind of transpiler / Uglifier for the front-end
+- [ ] Should not be using minify api on tests
