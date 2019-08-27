@@ -13,7 +13,9 @@
     "dotenv": "^8.1.0"
   },
   "scripts": {
-    "test": "start .\\tests\\js\\index.html & jest"
+    "test-js-unit": "start .\\tests\\js\\index.html",
+    "test-e2e": "jest",
+    "test-php": "phpunit"
   },
   "repository": {
     "type": "git",
