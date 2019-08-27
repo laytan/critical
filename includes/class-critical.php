@@ -78,7 +78,6 @@ class Critical {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -128,7 +127,6 @@ class Critical {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-critical-helpers.php';
 
 		$this->loader = new Critical_Loader();
-
 	}
 
 	/**
@@ -141,11 +139,9 @@ class Critical {
 	 * @access   private
 	 */
 	private function set_locale() {
-
 		$plugin_i18n = new Critical_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -156,7 +152,6 @@ class Critical {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-
 		$plugin_admin = new Critical_Admin( $this->get_critical(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
@@ -173,14 +168,12 @@ class Critical {
 	 * @access   private
 	 */
 	private function define_public_hooks() {
-
 		$plugin_public = new Critical_Public( $this->get_critical(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'wp_head', $plugin_public, 'insert_critical_css' );
 		$this->loader->add_filter( 'style_loader_tag', $plugin_public, 'defer_non_critical_css', 10, 2 );
-
 	}
 
 	/**

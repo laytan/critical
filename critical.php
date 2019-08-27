@@ -74,9 +74,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-critical.php';
  * @since    1.0.0
  */
 function run_critical() {
-
 	$plugin = new Critical();
 	$plugin->run();
-
 }
 run_critical();

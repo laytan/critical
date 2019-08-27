@@ -44,14 +44,12 @@ class Critical_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $critical       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $critical       The name of the plugin.
+	 * @param      string $version    The version of this plugin.
 	 */
 	public function __construct( $critical, $version ) {
-
 		$this->critical = $critical;
-		$this->version = $version;
-
+		$this->version  = $version;
 	}
 
 	/**
@@ -122,8 +120,8 @@ class Critical_Public {
 	 * Filter for all css rules, changes html to preload the css if there is critical css present for the post
 	 *
 	 * @since    1.0.0
-	 * @param    string    $html      the HTML content of the css link
-	 * @param    string    $handle    the handle/slug of the enqueued style
+	 * @param    string $html      the HTML content of the css link
+	 * @param    string $handle    the handle/slug of the enqueued style
 	 * @return   string               HTML of the styling changed to defer with rel preload
 	 */
 	public function defer_non_critical_css( $html, $handle ) {

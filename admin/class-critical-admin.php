@@ -44,17 +44,16 @@ class Critical_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $critical       The ID of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $critical       The ID of this plugin.
+	 * @param      string $version    The version of this plugin.
 	 */
 	public function __construct( $critical, $version ) {
-
 		$this->critical = $critical;
 		$this->version  = $version;
 
 		// TODO: Put somewhere else
 		if ( array_key_exists( 'critical-input', $_POST ) && array_key_exists( 'critical-test', $_POST ) ) {
-			if($_POST['critical-test'] == true) {
+			if ( $_POST['critical-test'] == true ) {
 				echo 'Test: ' . $_POST['critical-input'];
 				exit;
 			}
@@ -65,7 +64,7 @@ class Critical_Admin {
 					'input' => $_POST['critical-input'],
 				),
 			);
-			$res = wp_remote_retrieve_body( wp_remote_post( $url, $args ) );
+			$res  = wp_remote_retrieve_body( wp_remote_post( $url, $args ) );
 			echo wp_kses_post( $res );
 			exit;
 		}
@@ -91,7 +90,6 @@ class Critical_Admin {
 		 */
 
 		wp_enqueue_style( $this->critical, plugin_dir_url( __FILE__ ) . 'css/critical-admin.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -114,12 +112,11 @@ class Critical_Admin {
 		 */
 
 		wp_enqueue_script( $this->critical, plugin_dir_url( __FILE__ ) . 'js/critical-admin.js', array( 'jquery' ), $this->version, false );
-
 	}
 
 	/**
 	 * Hooked on admin_bar_menu to add our toolbar to the page
-	 * 
+	 *
 	 * @param WP_Admin_Bar $wp_admin_bar the admin bar to run add_node on
 	 * @since 1.0.0
 	 */
@@ -154,7 +151,7 @@ class Critical_Admin {
 
 	/**
 	 * handles the post request from the front-end on getting css
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	public function got_css() {
