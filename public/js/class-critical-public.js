@@ -166,9 +166,7 @@ class Critical_Public {
 		//TODO: dynamic url
 		this.$.ajax('http://localhost/daub/', {
 			method: 'POST',
-			data: {
-				"critical-input": input,
-			},
+			data: this.getMinifyData(input),
 			success: function (data) {
 				cb(data);
 			},
@@ -176,6 +174,19 @@ class Critical_Public {
 				console.error(err);
 			},
 		});
+	}
+
+	/**
+	 * Adds the test boolean true to the post if there is an element with #critical-is-testing injected
+	 * 
+	 * @since 1.0.0
+	 * @param {string} input the CSS to minify
+	 */
+	getMinifyData(input) {
+		return {
+			"critical-input": input,
+			"critical-test": this.$('#critical-is-test').length > 0,
+		}
 	}
 
 	/**

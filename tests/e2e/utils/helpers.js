@@ -18,6 +18,23 @@ async function wpLogin(page) {
     await page.waitForNavigation({ 'waitUntil': 'domcontentloaded' });
 }
 
+/**
+ * Adds an element with id critical-is-test to the page
+ * 
+ * @since 1.0.0
+ * @param {object} page puppeteer page object
+ */
+async function addTestMark(page) {
+    await page.evaluate(() => {
+        const mark = document.createElement('div');
+        mark.id = 'critical-is-test';
+        mark.style.visibility = 'none';
+        document.body.appendChild(mark);
+    });
+    await page.waitForSelector('#critical-is-test');
+}
+
 module.exports = {
     wpLogin,
+    addTestMark,
 }

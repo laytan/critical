@@ -53,15 +53,16 @@ class Critical_Admin {
 		$this->version  = $version;
 
 		// TODO: Put somewhere else
-		// phpcs:disable
-		if ( array_key_exists( 'critical-input', $_POST ) ) {
-		// phpcs:enable
+		if ( array_key_exists( 'critical-input', $_POST ) && array_key_exists( 'critical-test', $_POST ) ) {
+			if($_POST['critical-test'] == true) {
+				echo 'Test: ' . $_POST['critical-input'];
+				exit;
+			}
+
 			$url  = 'https://cssminifier.com/raw';
 			$args = array(
 				'body' => array(
-					// phpcs:disable
 					'input' => $_POST['critical-input'],
-					// phpcs:enable
 				),
 			);
 			$res = wp_remote_retrieve_body( wp_remote_post( $url, $args ) );

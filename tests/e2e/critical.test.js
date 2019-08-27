@@ -2,7 +2,7 @@ require('dotenv').config();
 const puppeteer = require('puppeteer');
 
 const b = require('./utils/class-browser-wrapper.js')(puppeteer);
-const { wpLogin } = require('./utils/helpers.js');
+const { wpLogin, addTestMark } = require('./utils/helpers.js');
 
 jest.setTimeout(100000);
 
@@ -31,6 +31,31 @@ test("login is set up correctly", async () => {
     await page.close();
 });
 
+test("there is a #critical-is-test element after running addTestMark in a test", async () => {
+    const browser = await b.getHeadless();
+    const page = await browser.newPage();
+    await page.goto(rootUrl);
+    await addTestMark(page);
+    expect(await page.$('#critical-is-test')).not.toBeNull();
+    await page.close();
+});
+
+test("having ran addTestMark in a test, the minified css output starts with Test:", async () => {
+    const browser = await b.getHeadless();
+    const page = await browser.newPage();
+    await wpLogin(page);
+    await page.goto(rootUrl);
+    await addTestMark(page);
+    await page.click('#wp-admin-bar-critical-admin-toolbar');
+    await page.waitForSelector('.critical-css-details p');
+    const cssContent = await page.evaluate(() => {
+        return document.querySelector('.critical-css-details p').textContent;
+    });
+    expect(cssContent).toMatch(/Test:/);
+
+    await page.close();
+});
+
 test("toolbar is added", async () => {
     const browser = await b.getHeadless();
     const page = await browser.newPage();
@@ -46,6 +71,7 @@ test("clicking generate critical css shows a modal with the generated css", asyn
     const page = await browser.newPage();
     await wpLogin(page);
     await page.goto(rootUrl);
+    await addTestMark(page);
     await page.click('#wp-admin-bar-critical-admin-toolbar');
     const cssContent = await page.waitForSelector('.critical-css-details p');
     expect(cssContent).not.toBeNull();
@@ -57,6 +83,7 @@ test("clicking close or cancel closes the modal", async () => {
     const page = await browser.newPage();
     await wpLogin(page);
     await page.goto(rootUrl);
+    await addTestMark(page);
     await page.click('#wp-admin-bar-critical-admin-toolbar');
     const closeBtn = await page.waitForSelector('.critical-close-button');
     await closeBtn.click();
