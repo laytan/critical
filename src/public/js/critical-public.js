@@ -1,5 +1,7 @@
+const Critical_Public = require('./class-critical-public');
+
 (function ($) {
-    'use strict';
+	'use strict';
 
 	/**
 	 * An interface for the critical public class.
@@ -14,12 +16,12 @@
 	 * 
 	 * @since 1.0.0
 	 */
-    $(window).load(function () {
-        const CriticalPublic = new Critical_Public($);
+	$(window).load(function () {
+		const CriticalPublic = new Critical_Public($);
 
-        CriticalPublic.getToolbarBtn().on('click', function (e) {
-            CriticalPublic.generateCriticalCSS(e);
-        });
-    });
+		CriticalPublic.getToolbarBtn().on('click', function (e) {
+			CriticalPublic.generateCriticalCSS(e);
+		});
+	});
 
 })(jQuery);

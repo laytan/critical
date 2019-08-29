@@ -2,7 +2,7 @@
  * Class that holds all our public facing javascript logic.
  * Note: This JS is only ran when the user is an admin.
  */
-class Critical_Public {
+module.exports = class Critical_Public {
 
 	/**
 	 * Get the class ready to function

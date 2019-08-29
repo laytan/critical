@@ -76,7 +76,7 @@ class Critical_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->critical, plugin_dir_url( __FILE__ ) . 'css/critical-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->critical, plugin_dir_url( __FILE__ ) . 'dist/critical-admin.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -98,7 +98,7 @@ class Critical_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->critical, plugin_dir_url( __FILE__ ) . 'js/critical-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->critical, plugin_dir_url( __FILE__ ) . 'dist/critical-admin.bundle.js', array( 'jquery' ), $this->version, true );
 	}
 
 	/**

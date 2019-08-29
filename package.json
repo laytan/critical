@@ -6,16 +6,30 @@
   "directories": {
     "test": "tests"
   },
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
+    "dotenv": "^8.1.0",
     "jest": "^24.9.0",
+    "npm-run-all": "^4.1.5",
     "puppeteer": "^1.19.0",
-    "dotenv": "^8.1.0"
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7",
+    "node-sass": "^4.12.0"
   },
   "scripts": {
-    "test-js-unit": "start .\\tests\\js\\index.html",
-    "test-e2e": "jest",
-    "test-php": "phpunit"
+    "test": "npm-run-all --parallel test-js test-e2e test-php",
+    "test-js": "jest tests/js",
+    "test-e2e": "jest tests/e2e",
+    "test-php": "phpunit",
+    "build": "npm-run-all --parallel webpack build-public-scss build-admin-scss",
+    "webpack": "webpack",
+    "build-public-scss": "node-sass src/public/scss/critical-public.scss src/public/dist/critical-public.css --output-style compressed",
+    "build-admin-scss": "node-sass src/admin/scss/critical-admin.scss src/admin/dist/critical-admin.css --output-style compressed",
+    "dev": "npm-run-all --parallel watch-js watch-public-scss watch-admin-scss",
+    "watch-js": "webpack --watch",
+    "watch-public-scss": "node-sass src/public/scss/critical-public.scss src/public/dist/critical-public.css -w",
+    "watch-admin-scss": "node-sass src/admin/scss/critical-admin.scss src/admin/dist/critical-admin.css -w"
   },
   "repository": {
     "type": "git",

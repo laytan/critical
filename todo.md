@@ -10,6 +10,6 @@
 - [ ] Dynamic URL redirect
 - [ ] Add noscript support
 - [ ] Internationalize
-- [ ] Use some kind of transpiler / Uglifier for the front-end
+- [x] Use some kind of transpiler / Uglifier for the front-end
 - [x] Should not be using minify api on tests
 - [x] Move source files into separate folder (admin/, public/, includes/)
