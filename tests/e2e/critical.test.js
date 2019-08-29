@@ -58,6 +58,23 @@ test("having ran addTestMark in a test, the minified css output starts with Test
     await page.close();
 });
 
+test("having not ran addTestMark in a test, the test runs across the minify API and does not start with Test:", async () => {
+    const browser = await b.getHeadless();
+    const page = await browser.newPage();
+    await wpLogin(page);
+    await page.goto(rootUrl);
+    await Promise.all([
+        page.click('#wp-admin-bar-critical-admin-toolbar'),
+        page.waitForSelector('.critical-css-details p')
+    ]);
+    const cssContent = await page.evaluate(() => {
+        return document.querySelector('.critical-css-details p').textContent;
+    });
+    expect(cssContent).not.toMatch(/Test:/);
+
+    await page.close();
+});
+
 test("toolbar is added", async () => {
     const browser = await b.getHeadless();
     const page = await browser.newPage();

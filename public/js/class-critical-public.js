@@ -122,10 +122,8 @@ class Critical_Public {
 		withoutAdmin.forEach(stylesheet => {
 			criticalStrings.push(this.criticalCSS(stylesheet.href));
 		});
-
 		// Combine all css into one
 		const combinedCSS = criticalStrings.join('\n');
-
 		// Minify the css
 		this.minify(combinedCSS, (minifiedCSS) => {
 			toolbar.find('#critical-admin-toolbar-title').text('Generate Critical CSS').removeClass('critical-loader');

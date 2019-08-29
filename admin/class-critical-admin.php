@@ -51,21 +51,8 @@ class Critical_Admin {
 		$this->critical = $critical;
 		$this->version  = $version;
 
-		// TODO: Put somewhere else
-		if ( array_key_exists( 'critical-input', $_POST ) && array_key_exists( 'critical-test', $_POST ) ) {
-			if ( $_POST['critical-test'] == true ) {
-				echo 'Test: ' . $_POST['critical-input'];
-				exit;
-			}
-
-			$url  = 'https://cssminifier.com/raw';
-			$args = array(
-				'body' => array(
-					'input' => $_POST['critical-input'],
-				),
-			);
-			$res  = wp_remote_retrieve_body( wp_remote_post( $url, $args ) );
-			echo wp_kses_post( $res );
+		if ( $this->check_for_request( $_POST ) ) {
+			echo $this->respond_to_minify_request( $_POST['critical-input'], $_POST['critical-test'], 'https://cssminifier.com/raw' );
 			exit;
 		}
 	}
@@ -167,5 +154,54 @@ class Critical_Admin {
 
 		// Redirect back to the post
 		wp_safe_redirect( get_permalink( $post_ID ) );
+	}
+
+	/**
+	 * Returns true if the post request has what we want and is of valid types
+	 * The string true or false is also allowed
+	 *
+	 * @since 1.0.0
+	 * @param   array $post The post request,
+	 *                      the function checks for a critical-input of type string
+	 *                      and a critical-test of type bool or string representing a bool.
+	 */
+	public function check_for_request( $post ) {
+		return (
+			( array_key_exists( 'critical-input', $post ) && is_string( $post['critical-input'] ) )
+			&&
+			(
+				array_key_exists( 'critical-test', $post )
+				&&
+				(
+					$post['critical-test'] === 'true'
+					||
+					$post['critical-test'] === 'false'
+					||
+					is_bool( $post['critical-test'] )
+				)
+			)
+		);
+	}
+
+	/**
+	 * Returns the wanted response, depending on test or not.
+	 *
+	 * @since 1.0.0
+	 * @param   string      $input      the input of critical css to minify
+	 * @param   string|bool $test       is this a test?
+	 * @param   string      $url        the api url
+	 */
+	public function respond_to_minify_request( $input, $test, $url ) {
+		if ( $test === true || $test === 'true' ) {
+			return 'Test: ' . $input;
+		}
+
+		$args = array(
+			'body' => array(
+				'input' => $input,
+			),
+		);
+		$res  = wp_remote_retrieve_body( wp_remote_post( $url, $args ) );
+		return wp_kses_post( $res );
 	}
 }
