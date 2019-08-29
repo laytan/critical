@@ -22,6 +22,7 @@ test("testing is set up correctly", async () => {
     await page.close();
 });
 
+// FIXME: Fails sometimes?
 test("login is set up correctly", async () => {
     const browser = await b.getHeadless();
     const page = await browser.newPage();

@@ -42,7 +42,7 @@ define( 'CRITICAL_VERSION', '1.0.0' );
  * This action is documented in includes/class-critical-activator.php
  */
 function activate_critical() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-critical-activator.php';
+	require_once plugin_dir_path( __FILE__ ) . 'src/includes/class-critical-activator.php';
 	Critical_Activator::activate();
 }
 
@@ -51,7 +51,7 @@ function activate_critical() {
  * This action is documented in includes/class-critical-deactivator.php
  */
 function deactivate_critical() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-critical-deactivator.php';
+	require_once plugin_dir_path( __FILE__ ) . 'src/includes/class-critical-deactivator.php';
 	Critical_Deactivator::deactivate();
 }
 
@@ -62,7 +62,7 @@ register_deactivation_hook( __FILE__, 'deactivate_critical' );
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-critical.php';
+require plugin_dir_path( __FILE__ ) . 'src/includes/class-critical.php';
 
 /**
  * Begins execution of the plugin.
