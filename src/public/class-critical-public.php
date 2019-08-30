@@ -130,8 +130,7 @@ class Critical_Public {
 			return $html;
 		}
 
-		// Make sure preload and onload is not already in the html
-		if ( ( strpos( $html, 'preload' ) !== false || strpos( $html, 'onload' ) !== false ) ) {
+		if ( $this->has_defer_attributes( $html ) ) {
 			return $html;
 		}
 
@@ -149,5 +148,19 @@ class Critical_Public {
 		// $output      = $with_onload . '<noscript>' . $html . '</noscript>';
 		// var_dump(esc_html($output));
 		return $with_onload;
+	}
+
+	/**
+	 * Checks for attributes we use in deferring
+	 *
+	 * @since 1.0.0
+	 * @param string $html The content / html of the element to look in
+	 */
+	public function has_defer_attributes( $html ) {
+		// Make sure preload and onload is not already in the html
+		if ( ( strpos( $html, 'preload' ) !== false || strpos( $html, 'onload' ) !== false ) ) {
+			return true;
+		}
+		return false;
 	}
 }
